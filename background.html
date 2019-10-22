@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>布局练习</title>
+    <style>
+        * {
+            margin: 0px;/*去掉页面的边距*/
+            padding: 0px;
+        }
+        .top,
+        .banner,
+        .main,
+        .footer{/*抽取同样的样式属性，用并集选择器*/
+            width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+        .top {
+            height: 100px;          
+            background-color: pink;                     
+        }
+        .banner {
+            height: 60px;
+            background-color: hotpink;
+        }
+        .main {
+            height: 300px;
+            background-color: deeppink;
+        }
+        .footer {
+            height: 50px;
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <!-- 1）确定页面的版心（可视区）
+    2）分析页面中的行模块，以及每个行模块中的列模块
+    3）制作HTML结构
+    4）CSS初始化，然后开始运用盒子模型的原理，通过DIV+CSS布局来控制页面的各个模块 -->
+    <div class="top">top</div>
+    <div class="banner">banner</div>
+    <div class="main">main</div>
+    <div class="footer">footer</div>
+</body>
+</html>

@@ -14,7 +14,7 @@
 
         },
     "background": {//background script即插件运行的环境
-        // "page": "background.html",
+        // "page": "background.html"
         "scripts": ["js/bg.js"]//数组.chrome会在扩展启动时自动创建一个包含所有指定脚本的页面
       },
     "content_scripts":[{   //对页面内容进行操作的脚本定义
@@ -25,5 +25,13 @@
      "chrome_url_overrides":
      {
          "newtab": "newtab.html"
-     }
+     },
+     "options_page": "options.html",
+     "options_ui": 
+     {
+         "page": "options.html",
+         "chrome_style": true
+     },
+     "omnibox": {"keyword": "go"},
+     "homepage_url": "https://github.com/lflxp"
 }
