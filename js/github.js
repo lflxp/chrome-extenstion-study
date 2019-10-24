@@ -3,7 +3,7 @@ function Github(user,repos,token) {
     this.repos = repos
     this.token = token
     this.url = 'https://api.github.com'
-    this.headers = {'Authorization': 'token 101eac4f31ae1bb1318c1f704c26716b9052962d','Content-type': 'application/json'}
+    this.headers = {'Authorization': 'token $tokens','Content-type': 'application/json'}
     this.tags = 'tags'
     this.session = 'session'
     this.bookmarks = 'bookmarks'
