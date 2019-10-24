@@ -7,6 +7,26 @@ $('#bg').click(() => {
 	bg.bgtest();
 });
 
+$('#jump').click(() => {
+	newTab()
+})
+
+$('#baidu').click(() => {
+	var bg = chrome.extension.getBackgroundPage();
+	console.log(123123, bg)
+	bg.SaveToken('123')
+	var token = bg.GetToken("SaveToken")
+	alert('token '+ token)
+	var github = new bg.Github("lflxp","tags",'999')
+	github.test()
+})
+
+$('#github').click(() => {
+	var bg = chrome.extension.getBackgroundPage();
+	var github = new bg.Github("lflxp","tags",'999')
+	github.create('tags/998')
+})
+
  // popup主动发消息给content-script
 $('#con').click(() => {
 	alert("popup发送消息给content-script");
