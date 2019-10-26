@@ -1,3 +1,3 @@
 function aa(){
-	alert("o.js的函数");
+	console.log("o.js的函数");
 }

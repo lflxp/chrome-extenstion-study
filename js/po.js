@@ -21,6 +21,35 @@ $('#baidu').click(() => {
 	github.test()
 })
 
+$('#get').click(() => {
+	var bg = chrome.extension.getBackgroundPage();
+	var github = new bg.Github("lflxp","tags",'999')
+	var rrr = github.get('tags/create')
+	alert('rrr'+JSON.stringify(rrr))
+	console.log('get rrr',rrr)
+})
+
+$('#create').click(() => {
+	var bg = chrome.extension.getBackgroundPage();
+	var github = new bg.Github("lflxp","tags",'999')
+	github.create('tags/create')
+})
+
+$('#update').click(() => {
+	var bg = chrome.extension.getBackgroundPage();
+	var github = new bg.Github("lflxp","tags",'999')
+	var message = 'update'
+	var content = 'update status'
+	github.update('tags/create',message,content)
+})
+
+$('#delete').click(() => {
+	var bg = chrome.extension.getBackgroundPage();
+	var github = new bg.Github("lflxp","tags",'999')
+	var message = 'delete'
+	github.delete('tags/create',message)
+})
+
 $('#github').click(() => {
 	var bg = chrome.extension.getBackgroundPage();
 	var github = new bg.Github("lflxp","tags",'999')

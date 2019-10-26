@@ -1,5 +1,5 @@
 //常驻后台，并且会注入到页面中
-alert("content-script.js 已经注入");
+console.log("content-script.js 已经注入");
 
 //直接调用注入的其他的js函数 注入的js可以有多个在mainfest中配置
 aa();
