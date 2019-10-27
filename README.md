@@ -17,3 +17,75 @@ https://www.cnblogs.com/deng-cc/p/9053539.html
 5. 利用github功能提供免费存储
 6. 同步算法
 7. 对接chrome书签 进行全量或增量同步
+
+# 数据结构
+
+{
+    "doctype": "netscape-bookmark-file-1",
+    "meta":{
+        "http-equiv":"Content-Type",
+        "content":"text/html; charset=UTF-8"
+    },
+    "title":"bookmarks",
+    "h1":"Bookmarks",
+    "dlp": [
+        {
+            "dt": {
+                "h3":{
+                    "add_date":"144412313888",
+                    "last_modified":"15717231238",
+                    "personal_toolbar_folder":"true",
+                    "value":"书签栏"
+                }
+            }
+        },
+        {
+            "dlp": [
+                {
+                    "dt":{
+                        "a":{
+                            "href":"http://www.baidu.com/nbbs",
+                            "add_date":"15123987182388",
+                            "icon":"data:image/png;base64,VBORw0KGgoAAAANSUhEUgAAABAAAAAQCA",
+                            "value":"联想"
+                        }
+                    }
+                },
+                {
+                    "dt":{
+                        "a":{
+                            "href":"http://www.baidu.com/nbbs",
+                            "add_date":"15123987182388",
+                            "icon":"data:image/png;base64,VBORw0KGgoAAAANSUhEUgAAABAAAAAQCA",
+                            "value":"联想"
+                        }
+                    }
+                },
+                {
+                    "dt":{
+                        "a":{
+                            "href":"http://www.baidu.com/nbbs",
+                            "add_date":"15123987182388",
+                            "icon":"data:image/png;base64,VBORw0KGgoAAAANSUhEUgAAABAAAAAQCA",
+                            "value":"联想"
+                        }
+                    }
+                },
+                {
+                    "dlp":[
+                        {
+                            "dt":{
+                                "a":{
+                                    "href":"http://www.baidu.com/nbbs",
+                                    "add_date":"15123987182388",
+                                    "icon":"data:image/png;base64,VBORw0KGgoAAAANSUhEUgAAABAAAAAQCA",
+                                    "value":"联想"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

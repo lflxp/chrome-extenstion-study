@@ -3,7 +3,7 @@ function Github(user,repos,token) {
     this.repos = repos
     this.token = token
     this.url = 'https://api.github.com'
-    this.headers = {'Authorization': 'token 9c5a442f97265f98ec2627062841334282d21dfa','Content-type': 'application/json'}
+    this.headers = {'Authorization': 'token NWUxZTgyMDQ3N2RhNzNhMTQ3ZjZjOGViYzA0OWU3MDIzZThlOGE5MQo ','Content-type': 'application/json'}
     this.tags = 'tags'
     this.session = 'session'
     this.bookmarks = 'bookmarks'
@@ -177,17 +177,24 @@ function Github(user,repos,token) {
     }
 }
 
-function SaveToken(token) {
-    chrome.storage.local.set({'SaveToken':token},function() {
-        console.log('Token已保存 ' + token)
+var user1 = {'name': 'diego', 'age': 18}
+function SaveToken(data) {
+    chrome.storage.local.set(data,function() {
+        console.log('Token已保存 ' + data)
     })
 }
+SaveToken({'user1':user1});
 
 // https://chajian.baidu.com/developer/extensions/storage.html
+// https://www.jianshu.com/p/f6ac6e3ee7a3
 function GetToken(key) {
-    var data = chrome.storage.local.get(key,function(response) {
-        console.log('get token' + response[0])
-        return response 
+    var data;
+    chrome.storage.local.get(key,function(result) {
+        console.log('get token ' + JSON.stringify(result))
+        data = result
+        console.log('name: ' + result['user1'].name + '<br>' + 'age: ' + result['user1'].age );
+        return result 
     })
+    console.log('token data',data);
     return data
 }

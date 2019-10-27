@@ -23,6 +23,9 @@ $('#baidu').click(() => {
 
 $('#get').click(() => {
 	var bg = chrome.extension.getBackgroundPage();
+
+	var t = bg.GetToken('user1')
+	alert('token11 '+t['user1'].name);
 	var github = new bg.Github("lflxp","tags",'999')
 	var rrr = github.get('tags/create')
 	alert('rrr'+JSON.stringify(rrr))
