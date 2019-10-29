@@ -3,6 +3,26 @@ function bgtest()
 	alert("background的bgtest函数！");
 }
 
+
+function setoken() 
+{
+	var username = '';
+	var repos = '';
+	var token = '';
+    var key = ['username','repos','token'];
+    chrome.storage.local.get(key,function(result){
+        username = result.username;
+        repos = result.repos;
+        token = result.token;
+		// console.log(username+repos+token);
+        // $('#username').val(username);
+        // $('#repos').val(repos);
+        // $('#token').val(token);
+		// console.log('over set token');
+		alert('users: '+username+ ' \nrepos: '+repos+' \ntoken: '+token);
+    })
+}
+
 // 右键菜单
 chrome.contextMenus.create({
 	title: "测试右键菜单",

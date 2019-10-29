@@ -4,8 +4,10 @@ console.log("content-script.js 已经注入");
 //直接调用注入的其他的js函数 注入的js可以有多个在mainfest中配置
 aa();
 
-var token = chrome.storage.local.get('SaveToken')
-console.log('local storage ',token)             
+// alert('url '+chrome.runtime.getURL());
+
+// var token = chrome.storage.local.get('SaveToken')
+// console.log('local storage ',token)             
 
 // 接收来自后台的消息
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)

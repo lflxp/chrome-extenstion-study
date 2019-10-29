@@ -62,7 +62,7 @@
      "chrome_url_overrides":
      {
         // 覆盖浏览器默认的新标签页
-        "newtab": "newtab.html",
+        "newtab": "newtab.html"
         // "history": "history.html",
 	    // "bookmarks": "bookmarks.html"
      },

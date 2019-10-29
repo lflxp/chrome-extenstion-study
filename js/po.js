@@ -11,22 +11,46 @@ $('#jump').click(() => {
 	newTab()
 })
 
-$('#baidu').click(() => {
+// https://www.cnblogs.com/hjqbit/p/7260110.html
+// chrome扩展程序获取当前页面URL和HTML内容
+
+$('#ttt').click(() => {
+	var username = document.getElementById("username").value;
+	var repos = document.getElementById("repos").value;
+	var token  = document.getElementById("token").value;
+	console.log(username,repos,token)
+	alert(username+repos+token);
 	var bg = chrome.extension.getBackgroundPage();
-	console.log(123123, bg)
-	bg.SaveToken('123')
-	var token = bg.GetToken("SaveToken")
-	alert('token '+ token)
-	var github = new bg.Github("lflxp","tags",'999')
-	github.test()
+
+	bg.SaveToken({"username":username,"repos":repos,"token":token})
 })
 
+$('#baidu').click(() => {
+	var bg = chrome.extension.getBackgroundPage();
+	var token = bg.GetToken(['username','repos','token']);
+	alert('token '+ token);
+	alert('token '+ JSON.stringify(token));
+	alert(document.location.href);
+	chrome.tabs.getSelected(null, function (tab) {
+        alert(tab.url);
+    });
+	// var github = new bg.Github("lflxp","tags",'999')
+	// github.test()
+})
+
+$('#gettoken').click(() => {
+	var bg = chrome.extension.getBackgroundPage();
+	bg.setoken();
+})
+
+// var user1 = {'name': 'diego', 'age': 18}
 $('#get').click(() => {
 	var bg = chrome.extension.getBackgroundPage();
 
-	var t = bg.GetToken('user1')
-	alert('token11 '+t['user1'].name);
-	var github = new bg.Github("lflxp","tags",'999')
+	// var t = new bg.GetToken('user1')
+	// alert('token11 '+t['user1'].name);
+	// var github = new bg.Github("lflxp","tags",'999')
+	var github = new bg.Github()
 	var rrr = github.get('tags/create')
 	alert('rrr'+JSON.stringify(rrr))
 	console.log('get rrr',rrr)

@@ -1,12 +1,17 @@
-function Github(user,repos,token) {
-    this.user = user
-    this.repos = repos
-    this.token = token
+function Github() {
+    // this.user = user
+    // this.repos = repos
+    // this.token = token
+    this.user = ''
+    this.repos = ''
+    this.token = ''
+    this.key = ['username','repos','token'];
+    
     this.url = 'https://api.github.com'
-    this.headers = {'Authorization': 'token NWUxZTgyMDQ3N2RhNzNhMTQ3ZjZjOGViYzA0OWU3MDIzZThlOGE5MQo ','Content-type': 'application/json'}
     this.tags = 'tags'
     this.session = 'session'
     this.bookmarks = 'bookmarks'
+
     this.test = function() {
         console.log('ajax test')
         // https://www.e-learn.cn/content/wangluowenzhang/14974
@@ -67,19 +72,31 @@ function Github(user,repos,token) {
 
     this.get = function(filepath) {
         var r;
-        $.ajax({
-            type: 'GET',
-            url: this.url + '/repos/' + this.user + '/' + this.repos + '/contents/' + filepath,
-            headers: this.headers,
-            async: false,
-            success: function(result) {
-                console.log('github get success' + JSON.stringify(result),result['sha'])
-                r = result
-                return result
-            },
-            error: function(e) {
-                console.log(e.status)
+        chrome.storage.local.get(this.key,function(result) {
+            this.url = 'https://api.github.com'
+            this.user = result.username
+            this.repos = result.repos
+            this.token = result.token
+            this.headers = {'Authorization': 'token '+this.token,'Content-type': 'application/json'}
+            console.log('1111 '+ this.user+this.repos+this.token)
+            if (this.user === '' || this.user === undefined) {
+                alert('user is nil')
+                return
             }
+            $.ajax({
+                type: 'GET',
+                url: this.url + '/repos/' + this.user + '/' + this.repos + '/contents/' + filepath,
+                headers: this.headers,
+                async: false,
+                success: function(result) {
+                    console.log('github get success' + JSON.stringify(result),result['sha'])
+                    r = result
+                    return result
+                },
+                error: function(e) {
+                    console.log(e.status)
+                }
+            })
         })
         return r
     }
@@ -177,24 +194,51 @@ function Github(user,repos,token) {
     }
 }
 
-var user1 = {'name': 'diego', 'age': 18}
 function SaveToken(data) {
     chrome.storage.local.set(data,function() {
         console.log('Token已保存 ' + data)
     })
 }
-SaveToken({'user1':user1});
 
 // https://chajian.baidu.com/developer/extensions/storage.html
 // https://www.jianshu.com/p/f6ac6e3ee7a3
+// https://www.e-learn.cn/content/wangluowenzhang/48908
 function GetToken(key) {
-    var data;
+    var username = '';
+	var repos = '';
+	var token = '';
     chrome.storage.local.get(key,function(result) {
-        console.log('get token ' + JSON.stringify(result))
-        data = result
-        console.log('name: ' + result['user1'].name + '<br>' + 'age: ' + result['user1'].age );
-        return result 
+        username = result['username'];
+        repos = result['repos'];
+        token = result['token'];
+        console.log('get token ' + JSON.stringify(result));
     })
-    console.log('token data',data);
-    return data
+    return username+ ' ' + repos+ ' '+ token 
 }
+
+function GetGithub() {
+    // function Github(user,repos,token) 
+    var username = '';
+	var repos = '';
+	var token = '';
+    var key = ['username','repos','token'];
+    chrome.storage.local.get(key,function(result){
+        username = result.username;
+        repos = result.repos;
+        token = result.token;
+		console.log(username+repos+token);
+        // $('#username').val(username);
+        // $('#repos').val(repos);
+        // $('#token').val(token);
+        console.log('over set token');
+    })
+}
+
+var user1 = {'name': 'diego', 'age': 18}
+chrome.storage.local.set({'user1':user1},function() {
+    console.log('Token user1 save')
+})
+
+chrome.storage.local.get('username',function(result) {
+    $('#brand').val(result.username);
+})
