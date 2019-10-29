@@ -1,8 +1,8 @@
 {
     // （必需）清单文件的版本，这个必须写，且必须是2
     "manifest_version":2,//固定的
-    "name":"chrome插件消息交互机制",//插件名称
-    "description":"剔除换行",//插件的描述
+    "name":"网页tags同步",//插件名称
+    "description":"替换google谷歌tags同步不及时的方案",//插件的描述
     "version":"1.0",//插件使用的版本
     "permissions":[ //允许插件访问的url
         "contextMenus", // 右键菜单

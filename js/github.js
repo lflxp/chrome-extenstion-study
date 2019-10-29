@@ -5,7 +5,7 @@ function Github() {
     this.user = ''
     this.repos = ''
     this.token = ''
-    this.key = ['username','repos','token'];
+    this.key = ['username','repos','token','tags'];
     
     this.url = 'https://api.github.com'
     this.tags = 'tags'
@@ -51,23 +51,37 @@ function Github() {
     this.create = function(filepath) {
         var data = {
             "message": "commit init",
-            "content": "IyAyMDE5IG5ldyBmaWxlCg=="
+            "content": "eyJkZWZhdWx0IjpbeyJuYW1lIjoidGl0bGUiLCJ1cmwiOiJodHRwOi8vYmFpZHUuY29tIiwiaWNvbiI6IjEyMyIsInRpbWUiOiIyMDE5LTAxLTAxIn1dfQo="
         }
 
-        $.ajax({
-            type: 'PUT',
-            url: this.url + '/repos/' + this.user + '/' + this.repos + '/contents/' + filepath,
-            headers: this.headers,
-            data: JSON.stringify(data),
-            dataType: 'json',
-            success: function(result) {
-                console.log('github add success' + result)
-            },
-            error: function(e) {
-                console.log(e.status)
-                alert('error '+ e.status)
+        chrome.storage.local.get(this.key,function(result) {
+            this.url = 'https://api.github.com'
+            this.user = result.username
+            this.repos = result.repos
+            this.token = result.token
+            this.headers = {'Authorization': 'token '+this.token,'Content-type': 'application/json'}
+            console.log('1111 '+ this.user+this.repos+this.token)
+            if (this.user === '' || this.user === undefined) {
+                alert('user is nil')
+                return
             }
+
+            $.ajax({
+                type: 'PUT',
+                url: this.url + '/repos/' + this.user + '/' + this.repos + '/contents/' + filepath,
+                headers: this.headers,
+                data: JSON.stringify(data),
+                dataType: 'json',
+                success: function(result) {
+                    console.log('github add success' + result)
+                },
+                error: function(e) {
+                    console.log(e.status)
+                    alert('error '+ e.status)
+                }
+            })
         })
+        
     }
 
     this.get = function(filepath) {
@@ -89,7 +103,10 @@ function Github() {
                 headers: this.headers,
                 async: false,
                 success: function(result) {
-                    console.log('github get success' + JSON.stringify(result),result['sha'])
+                    console.log('github get success' + JSON.stringify(result),result['content'],window.atob(result['content']))
+                    chrome.storage.local.set({'tags':result['content']},function(){
+                        console.log('get data set local set');
+                    })
                     r = result
                     return result
                 },
@@ -99,6 +116,59 @@ function Github() {
             })
         })
         return r
+    }
+
+    // todo 远程同步
+    this.updateTags = function(filepath,message) {
+        chrome.storage.local.get(this.key,function(result) {
+            this.url = 'https://api.github.com'
+            this.user = result.username
+            this.repos = result.repos
+            this.token = result.token
+            var tags = result.tags
+            this.headers = {'Authorization': 'token '+this.token,'Content-type': 'application/json'}
+            console.log('1111 '+ this.user+this.repos+this.token)
+            if (this.user === '' || this.user === undefined) {
+                alert('user is nil')
+                return
+            }
+
+            var urls = this.url + '/repos/' + this.user + '/' + this.repos + '/contents/' + filepath
+            console.log('urls',urls);
+            console.log('sync tags ',JSON.stringify(tags));
+            $.ajax({
+                type: 'GET',
+                url: urls,
+                headers: this.headers,
+                dataType: 'json',
+                success: function(result) {
+                    console.log('github get success' + JSON.stringify(result),result['sha'])
+                    var data = {
+                        "message": message,
+                        "content": window.btoa(encodeURIComponent(JSON.stringify(tags))),
+                        "sha": result['sha']
+                    }
+
+                    console.log('urls',urls)
+                    $.ajax({
+                        type: 'PUT',
+                        url: urls,
+                        headers: this.headers,
+                        data: JSON.stringify(data),
+                        dataType: 'json',
+                        success: function(result1) {
+                            console.log('github update success' + JSON.stringify(result1))
+                        },
+                        error: function(e) {
+                            console.log('update update error',e.status)
+                        }
+                    })
+                },
+                error: function(e) {
+                    console.log('update get error',e.status)
+                }
+            })
+        })
     }
 
     /*
@@ -112,39 +182,52 @@ function Github() {
         }
     */
     this.update = function(filepath,message,content) {
-        var urls = this.url + '/repos/' + this.user + '/' + this.repos + '/contents/' + filepath
-        console.log('urls',urls)
-        $.ajax({
-            type: 'GET',
-            url: urls,
-            headers: this.headers,
-            dataType: 'json',
-            success: function(result) {
-                console.log('github get success' + JSON.stringify(result),result['sha'])
-                var data = {
-                    "message": message,
-                    "content": window.btoa(content),
-                    "sha": result['sha']
-                }
-
-                console.log('urls',urls)
-                $.ajax({
-                    type: 'PUT',
-                    url: urls,
-                    headers: this.headers,
-                    data: JSON.stringify(data),
-                    dataType: 'json',
-                    success: function(result1) {
-                        console.log('github update success' + JSON.stringify(result1))
-                    },
-                    error: function(e) {
-                        console.log('update update error',e.status)
-                    }
-                })
-            },
-            error: function(e) {
-                console.log('update get error',e.status)
+        chrome.storage.local.get(this.key,function(result) {
+            this.url = 'https://api.github.com'
+            this.user = result.username
+            this.repos = result.repos
+            this.token = result.token
+            this.headers = {'Authorization': 'token '+this.token,'Content-type': 'application/json'}
+            console.log('1111 '+ this.user+this.repos+this.token)
+            if (this.user === '' || this.user === undefined) {
+                alert('user is nil')
+                return
             }
+
+            var urls = this.url + '/repos/' + this.user + '/' + this.repos + '/contents/' + filepath
+            console.log('urls',urls)
+            $.ajax({
+                type: 'GET',
+                url: urls,
+                headers: this.headers,
+                dataType: 'json',
+                success: function(result) {
+                    console.log('github get success' + JSON.stringify(result),result['sha'])
+                    var data = {
+                        "message": message,
+                        "content": window.btoa(content),
+                        "sha": result['sha']
+                    }
+
+                    console.log('urls',urls)
+                    $.ajax({
+                        type: 'PUT',
+                        url: urls,
+                        headers: this.headers,
+                        data: JSON.stringify(data),
+                        dataType: 'json',
+                        success: function(result1) {
+                            console.log('github update success' + JSON.stringify(result1))
+                        },
+                        error: function(e) {
+                            console.log('update update error',e.status)
+                        }
+                    })
+                },
+                error: function(e) {
+                    console.log('update get error',e.status)
+                }
+            })
         })
     }
 
@@ -158,38 +241,51 @@ function Github() {
     }
     */
     this.delete = function(filepath,message) {
-        var urls = this.url + '/repos/' + this.user + '/' + this.repos + '/contents/' + filepath
-        console.log('urls',urls)
-        $.ajax({
-            type: 'GET',
-            url: urls,
-            headers: this.headers,
-            dataType: 'json',
-            success: function(result) {
-                console.log('github get success' + JSON.stringify(result),result['sha'])
-                var data = {
-                    "message": message,
-                    "sha": result['sha']
-                }
-
-                console.log('urls',urls)
-                $.ajax({
-                    type: 'DELETE',
-                    url: urls,
-                    headers: this.headers,
-                    data: JSON.stringify(data),
-                    dataType: 'json',
-                    success: function(result1) {
-                        console.log('github delete success' + JSON.stringify(result1))
-                    },
-                    error: function(e) {
-                        console.log('delete error',e.status)
-                    }
-                })
-            },
-            error: function(e) {
-                console.log('delete error',e.status)
+        chrome.storage.local.get(this.key,function(result) {
+            this.url = 'https://api.github.com'
+            this.user = result.username
+            this.repos = result.repos
+            this.token = result.token
+            this.headers = {'Authorization': 'token '+this.token,'Content-type': 'application/json'}
+            console.log('1111 '+ this.user+this.repos+this.token)
+            if (this.user === '' || this.user === undefined) {
+                alert('user is nil')
+                return
             }
+
+            var urls = this.url + '/repos/' + this.user + '/' + this.repos + '/contents/' + filepath
+            console.log('urls',urls)
+            $.ajax({
+                type: 'GET',
+                url: urls,
+                headers: this.headers,
+                dataType: 'json',
+                success: function(result) {
+                    console.log('github get success' + JSON.stringify(result),result['sha'])
+                    var data = {
+                        "message": message,
+                        "sha": result['sha']
+                    }
+
+                    console.log('urls',urls)
+                    $.ajax({
+                        type: 'DELETE',
+                        url: urls,
+                        headers: this.headers,
+                        data: JSON.stringify(data),
+                        dataType: 'json',
+                        success: function(result1) {
+                            console.log('github delete success' + JSON.stringify(result1))
+                        },
+                        error: function(e) {
+                            console.log('delete error',e.status)
+                        }
+                    })
+                },
+                error: function(e) {
+                    console.log('delete error',e.status)
+                }
+            })
         })
     }
 }
@@ -234,11 +330,23 @@ function GetGithub() {
     })
 }
 
-var user1 = {'name': 'diego', 'age': 18}
-chrome.storage.local.set({'user1':user1},function() {
-    console.log('Token user1 save')
-})
+// todo 直接popup.js获取
+// 1. 本地获取
+// var localdata;
+// function getlocaldata() {
+//     chrome.storage.local.get('tags',function(result){
+//         localdata = result;
+//     })
+// }
+// 2. 本地存储
+// 3. 本地修改
+// 4. 本地删除
 
-chrome.storage.local.get('username',function(result) {
-    $('#brand').val(result.username);
-})
+// var user1 = {'name': 'diego', 'age': 18}
+// chrome.storage.local.set({'user1':user1},function() {
+//     console.log('Token user1 save')
+// })
+
+// chrome.storage.local.get('username',function(result) {
+//     $('#brand').val(result.username);
+// })

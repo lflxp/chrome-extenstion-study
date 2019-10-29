@@ -11,8 +11,8 @@
   <!-- Bootstrap -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-  <nav class="navbar navbar-default">
+<body style="width: 310px;">
+  <nav class="navbar navbar-default navbar-inverse">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -23,16 +23,20 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand"  data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">李</a>
+        <a class="navbar-brand"  data-toggle="collapse" href="#demo" aria-expanded="false" aria-controls="demo">老</a>
+        <a class="navbar-brand" href="#" id="gettoken">师</a>
+        <a class="navbar-brand" data-toggle="collapse" href="#search" aria-expanded="false" aria-controls="search">好</a>
+        <a class="navbar-brand" data-toggle="collapse" href="#group" aria-expanded="false" aria-controls="group">呀</a>
       </div>
   
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class="active"><a role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">认证</a></li>
+          <li><a role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">认证</a></li>
+          <li><a role="button" data-toggle="collapse" href="#demo" aria-expanded="false" aria-controls="demo">测试</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">设置 <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="#" id="gettoken">验证TOKEN</a></li>
               <li><a href="#">Another action</a></li>
               <li><a href="#">Something else here</a></li>
               <li role="separator" class="divider"></li>
@@ -77,60 +81,82 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search for...">
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="button">Go!</button>
-        </span>
-      </div><!-- /input-group -->
-    </div><!-- /.col-lg-6 -->
+  <div class="collapse" id="search">
+    <div class="well">
+      
+      <label for="basic-url">搜索</label>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search for...">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button">Go!</button>
+            </span>
+          </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+      </div>
+    </div>
   </div>
 
-  <div width="200px" class="dropdown">
-    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-      Dropdown
-      <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-      <li><a href="#">Action</a></li>
-      <li><a href="#">Another action</a></li>
-      <li><a href="#">Something else here</a></li>
-      <li role="separator" class="divider"></li>
-      <li><a href="#">Separated link</a></li>
-    </ul>
-    <div class="dropup">
-      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Dropup
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-        <li><a href="#">Action</a></li>
-        <li><a href="#">Another action</a></li>
-        <li><a href="#">Something else here</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="#">Separated link</a></li>
-      </ul>
+  <div class="collapse" id="group">
+      <div class="well">
+        
+        <label for="basic-url">添加分组</label>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">添加</button>
+              </span>
+            </div><!-- /input-group -->
+          </div><!-- /.col-lg-6 -->
+        </div>
+      </div>
     </div>
-    <div class="btn-group" role="group" aria-label="...">
-      <button type="button" class="btn btn-default" id="con">popup发送消息给content_scripts</button>
-      <button type="button" class="btn btn-default" id="bg">popup调用background的js函数</button>
-      <button type="button" class="btn btn-default" id="bgtocon">background发送消息给content_scripts</button>
-      <button type="button" class="btn btn-default" id="jump">jump</button>
-      <button type="button" class="btn btn-default" id="baidu">baidu</button>
-      <button type="button" class="btn btn-default" id="github">github</button>
-      <button type="button" class="btn btn-default" id="get">get</button>
-      <button type="button" class="btn btn-default" id="create">create</button>
-      <button type="button" class="btn btn-default" id="update">update</button>
-      <button type="button" class="btn btn-default" id="delete">delete</button>
-      
-      
-      <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-          Popover on 右侧
-        </button>
+
+  <div class="collapse" id="demo">
+    <div class="well">
+      <label for="basic-url">功能测试</label>
+        <div class="btn-group" role="group" aria-label="...">
+          <button type="button" class="btn btn-default" id="con">popup发送消息给content_scripts</button>
+          <button type="button" class="btn btn-default" id="bg">popup调用background的js函数</button>
+          <button type="button" class="btn btn-default" id="bgtocon">background发送消息给content_scripts</button>
+          <button type="button" class="btn btn-default" id="jump">jump</button>
+          <button type="button" class="btn btn-default" id="baidu">baidu</button>
+          <button type="button" class="btn btn-default" id="github">github</button>
+          <button type="button" class="btn btn-default" id="get">get</button>
+          <button type="button" class="btn btn-default" id="create">create</button>
+          <button type="button" class="btn btn-default" id="update">update</button>
+          <button type="button" class="btn btn-default" id="delete">delete</button>
+          <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+              Popover on 右侧
+            </button>
+        </div>
     </div>
   </div>
+
+  <form>
+      <div class="form-group">
+      <label for="exampleInputEmail1">URL地址</label>
+      <input type="text" class="form-control" id="urls" placeholder="URLS" disabled>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">名称</label>
+      <input type="text" class="form-control" id="title" placeholder="TITLE">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">TABS分组</label>
+      <select class="form-control" id="selectgroup">
+        <option value="default">default</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block" id="addtags">添加</button>
+  </form>
 </body>
 </html>
 

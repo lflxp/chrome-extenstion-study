@@ -1,3 +1,16 @@
+window.onload = function() {
+	chrome.storage.local.get('tags',function(re){
+		// alert(JSON.parse(window.btoa(re)));
+		alert(JSON.stringify(re));
+		alert(re.tags);
+		// alert(window.atob(re.tags));
+	})
+	chrome.tabs.getSelected(null, function (tab) {
+		// alert(tab.url);
+		$('#urls').val(tab.url);
+		$('#title').val(tab.title);
+    });
+}
 
 // popup调用background的js函数
 $('#bg').click(() => {
@@ -25,15 +38,46 @@ $('#ttt').click(() => {
 	bg.SaveToken({"username":username,"repos":repos,"token":token})
 })
 
+$('#addtags').click(() => {
+	alert('addtags');
+	var urls = document.getElementById("urls").value;
+	var title = document.getElementById("title").value;
+	var select = document.getElementById("selectgroup").value;
+	var data = {'name':title,'url':urls,'group':select}
+	chrome.storage.local.get('tags',function(re){
+		// alert('1111 '+window.atob(re.tags));
+		var dd = JSON.parse(window.atob(encodeURIComponent(re.tags)))
+		// var dd = JSON.parse(re.tags)
+		// alert(dd);
+		var tmp = dd['default']
+		tmp.push(data)
+		dd['default'] = tmp
+		chrome.storage.local.set({'tags':dd},function(){
+			alert('get and set map')
+			// bg.update
+			var filepath = 'tags/create'
+			var message = 'update now'
+			var bg = chrome.extension.getBackgroundPage();
+			bg.updateTags(filepath,message);
+		})
+	})
+})
+
 $('#baidu').click(() => {
 	var bg = chrome.extension.getBackgroundPage();
-	var token = bg.GetToken(['username','repos','token']);
-	alert('token '+ token);
-	alert('token '+ JSON.stringify(token));
-	alert(document.location.href);
-	chrome.tabs.getSelected(null, function (tab) {
-        alert(tab.url);
-    });
+	alert(bg.localdata);
+
+	// var token = bg.GetToken(['username','repos','token']);
+	// alert('token '+ token);
+	// alert('token '+ JSON.stringify(token));
+
+	// alert(document.location.href);
+	// chrome.tabs.getSelected(null, function (tab) {
+	// 	alert(tab.url);
+	// 	$('#urls').val(tab.url);
+	// 	$('#title').val(tab.title);
+	// });
+	
 	// var github = new bg.Github("lflxp","tags",'999')
 	// github.test()
 })
@@ -41,6 +85,11 @@ $('#baidu').click(() => {
 $('#gettoken').click(() => {
 	var bg = chrome.extension.getBackgroundPage();
 	bg.setoken();
+	// 同步线上
+	var github = new bg.Github()
+	var filepath = 'tags/create'
+	var message = 'update now'
+	github.updateTags(filepath,message)
 })
 
 // var user1 = {'name': 'diego', 'age': 18}
@@ -52,7 +101,7 @@ $('#get').click(() => {
 	// var github = new bg.Github("lflxp","tags",'999')
 	var github = new bg.Github()
 	var rrr = github.get('tags/create')
-	alert('rrr'+JSON.stringify(rrr))
+	// alert('rrr'+JSON.stringify(rrr))
 	console.log('get rrr',rrr)
 })
 

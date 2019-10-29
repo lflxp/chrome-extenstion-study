@@ -20,6 +20,12 @@ https://www.cnblogs.com/deng-cc/p/9053539.html
 
 # 数据结构
 
+{"default":[{'name':'title','url':'http://baidu.com','icon':'123','time':'2019-01-01'}]}
+{"tags":{"default":[{'name':'title','url':'http://baidu.com','icon':'123','time':'2019-01-01'}]}}
+e2RlZmF1bHQ6W3snbmFtZSc6J3RpdGxlJywndXJsJzonaHR0cDovL2JhaWR1LmNvbScsJ2ljb24nOicxMjMnLCd0aW1lJzonMjAxOS0wMS0wMSd9XX0K
+
+# 数据结构1
+
 {
     "doctype": "netscape-bookmark-file-1",
     "meta":{
