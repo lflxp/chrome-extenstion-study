@@ -17,6 +17,9 @@ https://www.cnblogs.com/deng-cc/p/9053539.html
 5. 利用github功能提供免费存储
 6. 同步算法
 7. 对接chrome书签 进行全量或增量同步
+8. bookmarks接口获取书签
+9. 书签自动分类和推荐
+10. js代码结构改造
 
 # 数据结构
 
