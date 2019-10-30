@@ -120,7 +120,9 @@ function Github() {
                         //         console.log('create new Tree',JSON.stringify(result));
                         //     })
                         // })
-                        addAll(JSON.parse(window.atob(result['content'])));
+                        addAll(JSON.parse(window.atob(result['content'])),'');
+                        // addAll(window.atob(result['content']),'');
+                        // addAll(result['content'],'');
                         alert('同步完成');
                     },
                     error: function(e) {
@@ -443,33 +445,77 @@ function removeall(data) {
 // index ( optional integer )
 // title ( optional string )
 // url ( optional string )
-function addAll(data) {
+function addAll(data,parentname) {
     console.log('addAll',data)
     // debugger
     data.forEach((v) => {
         if (v.children !== undefined) {
-            if (v.parentId !== undefined) {
-                var tmp = {
-                    parentId: v.parentId,
-                    index: v.index,
-                    title: v.title,
-                    url: v.url
-                }
-                // Unchecked runtime.lastError: Can't find parent bookmark for id.
-                chrome.bookmarks.create(tmp,function(rs) {
-                    console.log('add mulu ',v.id,v.title,JSON.stringify(rs))
-                })
+            // chrome.bookmarks.search(parentname,function(trs) {
+            //     console.log('search ',v.title,v.index,v.url,parentname,JSON.stringify(trs))
+            //     if (trs.length > 0) {
+            //         trs.forEach((tt) => {
+            //             var tmp = {
+            //                 parentId: tt.id,
+            //                 title: v.title
+            //             }
+            //             // Unchecked runtime.lastError: Can't find parent bookmark for id.
+            //             chrome.bookmarks.create(tmp,function(rs) {
+            //                 console.log('add mulu ',v.id,v.title,JSON.stringify(rs))
+            //             })
+            //         })
+            //     } else {
+            //         var tmp = {
+            //             parentId: v.parentId,
+            //             title: v.title
+            //         }
+            //         // Unchecked runtime.lastError: Can't find parent bookmark for id.
+            //         chrome.bookmarks.create(tmp,function(rs) {
+            //             console.log('add mulu ',v.id,v.title,parentname,JSON.stringify(rs))
+            //         })
+            //     }
+            // })
+            
+            var tmp = {
+                parentId: "1",
+                title: v.title
             }
-            addAll(v.children)
+            // Unchecked runtime.lastError: Can't find parent bookmark for id.
+            chrome.bookmarks.create(tmp,function(rs) {
+                console.log('add mulu ',v.id,v.title,parentname,JSON.stringify(rs))
+            })
+            addAll(v.children,v.title)
         }
         var tmp = {
-            parentId: v.parentId,
-            index: v.index,
+            parentId: "1",
             title: v.title,
             url: v.url
         }
         chrome.bookmarks.create(tmp,function(rrs) {
-            console.log('add url ',v.id,v.title,v.url,JSON.stringify(rrs)) 
+            console.log('add url ',v.id,v.title,v.url,parentname,JSON.stringify(rrs)) 
         })
+        // chrome.bookmarks.search(parentname,function(trs) {
+        //     console.log('search ',v.title,v.index,v.url,parentname,JSON.stringify(trs))
+        //     if (trs.length>0) {
+        //         trs.forEach((tt) => {
+        //             var tmp = {
+        //                 parentId: tt.id,
+        //                 title: v.title,
+        //                 url: v.url
+        //             }
+        //             chrome.bookmarks.create(tmp,function(rrs) {
+        //                 console.log('add url ',v.id,v.title,v.url,parentname,JSON.stringify(rrs)) 
+        //             })
+        //         })
+        //     } else {
+        //         var tmp = {
+        //             parentId: v.parentId,
+        //             title: v.title,
+        //             url: v.url
+        //         }
+        //         chrome.bookmarks.create(tmp,function(rrs) {
+        //             console.log('add url ',v.id,v.title,v.url,parentname,JSON.stringify(rrs)) 
+        //         })
+        //     }
+        // })
     })
 }
