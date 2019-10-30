@@ -1,10 +1,10 @@
 window.onload = function() {
-	chrome.storage.local.get('tags',function(re){
-		// alert(JSON.parse(window.btoa(re)));
-		alert(JSON.stringify(re));
-		alert(re.tags);
-		// alert(window.atob(re.tags));
-	})
+	// chrome.storage.local.get('tags',function(re){
+	// 	// alert(JSON.parse(window.btoa(re)));
+	// 	alert(JSON.stringify(re));
+	// 	alert(re.tags);
+	// 	// alert(window.atob(re.tags));
+	// })
 	chrome.tabs.getSelected(null, function (tab) {
 		// alert(tab.url);
 		$('#urls').val(tab.url);
@@ -22,6 +22,11 @@ $('#bg').click(() => {
 
 $('#jump').click(() => {
 	newTab()
+})
+
+$('#mark').click(() => {
+	var bg = chrome.extension.getBackgroundPage();
+	bg.getbookmarks();
 })
 
 // https://www.cnblogs.com/hjqbit/p/7260110.html

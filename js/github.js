@@ -84,8 +84,8 @@ function Github() {
         
     }
 
+    // 远程加载
     this.get = function(filepath) {
-        var r;
         chrome.storage.local.get(this.key,function(result) {
             this.url = 'https://api.github.com'
             this.user = result.username
@@ -104,23 +104,29 @@ function Github() {
                 async: false,
                 success: function(result) {
                     console.log('github get success' + JSON.stringify(result),result['content'],window.atob(result['content']))
-                    chrome.storage.local.set({'tags':result['content']},function(){
-                        console.log('get data set local set');
+                    // chrome.storage.local.set({'tags':result['content']},function(){
+                    //     console.log('get data set local set');
+                    // })
+
+                    // 全量清空 然后再加载
+                    chrome.bookmarks.removeTree('0',(rt) => {
+                        console.log('removeTree',JSON.stringify(rt));
+                        chrome.bookmarks.create(JSON.parse(window.atob(result['content'])),(result) => {
+                            console.log('create new Tree',JSON.stringify(result));
+                        })
                     })
-                    r = result
-                    return result
                 },
                 error: function(e) {
                     console.log(e.status)
                 }
             })
         })
-        return r
     }
 
     // todo 远程同步
     this.updateTags = function(filepath,message) {
         chrome.storage.local.get(this.key,function(result) {
+            let _this = this
             this.url = 'https://api.github.com'
             this.user = result.username
             this.repos = result.repos
@@ -143,25 +149,30 @@ function Github() {
                 dataType: 'json',
                 success: function(result) {
                     console.log('github get success' + JSON.stringify(result),result['sha'])
-                    var data = {
-                        "message": message,
-                        "content": window.btoa(encodeURIComponent(JSON.stringify(tags))),
-                        "sha": result['sha']
-                    }
-
-                    console.log('urls',urls)
-                    $.ajax({
-                        type: 'PUT',
-                        url: urls,
-                        headers: this.headers,
-                        data: JSON.stringify(data),
-                        dataType: 'json',
-                        success: function(result1) {
-                            console.log('github update success' + JSON.stringify(result1))
-                        },
-                        error: function(e) {
-                            console.log('update update error',e.status)
+                    chrome.bookmarks.getTree((re) => {
+                        console.log('reeee',JSON.stringify(re))
+                        // "content": window.btoa(encodeURIComponent(JSON.stringify(re))),
+                        var data = {
+                            "message": '全量同步bookmarks',
+                            "content": window.btoa(unescape(encodeURIComponent(JSON.stringify(re)))),
+                            "sha": result['sha']
                         }
+                    
+                        var urls = _this.url + '/repos/' + _this.user + '/' + _this.repos + '/contents/' + filepath
+                        console.log('urls',urls,data)
+                        $.ajax({
+                            type: 'PUT',
+                            url: urls,
+                            headers: _this.headers,
+                            data: JSON.stringify(data),
+                            dataType: 'json',
+                            success: function(result1) {
+                                console.log('github update success' + JSON.stringify(result1))
+                            },
+                            error: function(e) {
+                                console.log('update update error',e.status)
+                            }
+                        })
                     })
                 },
                 error: function(e) {
@@ -350,3 +361,52 @@ function GetGithub() {
 // chrome.storage.local.get('username',function(result) {
 //     $('#brand').val(result.username);
 // })
+
+// http://docs.getxhr.com/ChromeExtensionDocument/bookmarks.html
+// http://docs.getxhr.com/ChromeExtensionDocument/samples.html#39c879e6ea31a83cb901ae55a5fcf76a
+function getbookmarks() {
+    // chrome.bookmarks.get('书签栏',function(result) {
+    //     console.log('result',JSON.stringify(result))
+    // })
+
+    // chrome.bookmarks.getRecent(10,function(result){
+    //     console.log('result',JSON.stringify(result));
+    // })
+
+    // chrome.bookmarks.getSubTree('1',function(result){
+    //     console.log('result',JSON.stringify(result));
+    // })
+
+    chrome.bookmarks.getTree(cb);
+}
+
+function cb(result) {
+    console.log('result',JSON.stringify(result));
+}
+
+function cbsync(result) {
+    console.log('github get success' + JSON.stringify(result),result['sha'])
+    chrome.bookmarks.getTree((re) => {
+        var data = {
+            "message": '全量同步bookmarks',
+            "content": window.btoa(encodeURIComponent(JSON.stringify(re))),
+            "sha": result['sha']
+        }
+    
+        var urls = 'https://api.github.com/repos/' + this.user + '/' + this.repos + '/contents/' + filepath
+        console.log('urls',urls)
+        $.ajax({
+            type: 'PUT',
+            url: urls,
+            headers: this.headers,
+            data: JSON.stringify(data),
+            dataType: 'json',
+            success: function(result1) {
+                console.log('github update success' + JSON.stringify(result1))
+            },
+            error: function(e) {
+                console.log('update update error',e)
+            }
+        })
+    })
+}
