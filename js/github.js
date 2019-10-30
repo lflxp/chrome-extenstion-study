@@ -86,41 +86,49 @@ function Github() {
 
     // 远程加载
     this.get = function(filepath) {
-        chrome.storage.local.get(this.key,function(result) {
-            this.url = 'https://api.github.com'
-            this.user = result.username
-            this.repos = result.repos
-            this.token = result.token
-            this.headers = {'Authorization': 'token '+this.token,'Content-type': 'application/json'}
-            console.log('1111 '+ this.user+this.repos+this.token)
-            if (this.user === '' || this.user === undefined) {
-                alert('user is nil')
-                return
-            }
-            $.ajax({
-                type: 'GET',
-                url: this.url + '/repos/' + this.user + '/' + this.repos + '/contents/' + filepath,
-                headers: this.headers,
-                async: false,
-                success: function(result) {
-                    console.log('github get success' + JSON.stringify(result),result['content'],window.atob(result['content']))
-                    // chrome.storage.local.set({'tags':result['content']},function(){
-                    //     console.log('get data set local set');
-                    // })
+        // 全量清空 然后再加载
+        chrome.bookmarks.getTree((re) => {
+            // console.log('reeee',JSON.stringify(re),re[0])
+            removeall(re);
 
-                    // 全量清空 然后再加载
-                    chrome.bookmarks.removeTree('0',(rt) => {
-                        console.log('removeTree',JSON.stringify(rt));
-                        chrome.bookmarks.create(JSON.parse(window.atob(result['content'])),(result) => {
-                            console.log('create new Tree',JSON.stringify(result));
-                        })
-                    })
-                },
-                error: function(e) {
-                    console.log(e.status)
+            chrome.storage.local.get(this.key,function(result) {
+                this.url = 'https://api.github.com'
+                this.user = result.username
+                this.repos = result.repos
+                this.token = result.token
+                this.headers = {'Authorization': 'token '+this.token,'Content-type': 'application/json'}
+                console.log('1111 '+ this.user+this.repos+this.token)
+                if (this.user === '' || this.user === undefined) {
+                    alert('user is nil')
+                    return
                 }
+                $.ajax({
+                    type: 'GET',
+                    url: this.url + '/repos/' + this.user + '/' + this.repos + '/contents/' + filepath,
+                    headers: this.headers,
+                    async: false,
+                    success: function(result) {
+                        console.log('github get success' + JSON.stringify(result),result['content'],window.atob(result['content']))
+                        // chrome.storage.local.set({'tags':result['content']},function(){
+                        //     console.log('get data set local set');
+                        // })
+    
+                        // 全量清空 然后再加载
+                        // chrome.bookmarks.removeTree('0',(rt) => {
+                        //     console.log('removeTree',JSON.stringify(rt));
+                        //     chrome.bookmarks.create(JSON.parse(window.atob(result['content'])),(result) => {
+                        //         console.log('create new Tree',JSON.stringify(result));
+                        //     })
+                        // })
+                        addAll(JSON.parse(window.atob(result['content'])));
+                        alert('同步完成');
+                    },
+                    error: function(e) {
+                        console.log(e.status)
+                    }
+                })
             })
-        })
+        });
     }
 
     // todo 远程同步
@@ -407,6 +415,61 @@ function cbsync(result) {
             error: function(e) {
                 console.log('update update error',e)
             }
+        })
+    })
+}
+
+// 递归全量清空
+// todo remove v.id in [0,1,2,3]
+function removeall(data) {
+    data.forEach((v) => {
+        if (v.url === undefined) {
+            chrome.bookmarks.removeTree(v.id,function(rs) {
+            // chrome.bookmarks.remove(v.id,function(rs) {
+                console.log('remove tree success',v.id,JSON.stringify(rs))
+            })
+            removeall(v.children)
+        }
+        chrome.bookmarks.remove(v.id,function(rr) {
+            console.log('remove single',v.id,JSON.stringify(rr))
+        })
+    })
+}
+
+// 递归全量导入
+// bookmark ( object )
+// parentId ( optional string )
+// Defaults to the Other Bookmarks folder.
+// index ( optional integer )
+// title ( optional string )
+// url ( optional string )
+function addAll(data) {
+    console.log('addAll',data)
+    // debugger
+    data.forEach((v) => {
+        if (v.children !== undefined) {
+            if (v.parentId !== undefined) {
+                var tmp = {
+                    parentId: v.parentId,
+                    index: v.index,
+                    title: v.title,
+                    url: v.url
+                }
+                // Unchecked runtime.lastError: Can't find parent bookmark for id.
+                chrome.bookmarks.create(tmp,function(rs) {
+                    console.log('add mulu ',v.id,v.title,JSON.stringify(rs))
+                })
+            }
+            addAll(v.children)
+        }
+        var tmp = {
+            parentId: v.parentId,
+            index: v.index,
+            title: v.title,
+            url: v.url
+        }
+        chrome.bookmarks.create(tmp,function(rrs) {
+            console.log('add url ',v.id,v.title,v.url,JSON.stringify(rrs)) 
         })
     })
 }
