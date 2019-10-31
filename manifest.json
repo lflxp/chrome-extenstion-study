@@ -80,6 +80,8 @@
      "omnibox": {"keyword": "go"},
      // 插件主页，这个很重要，不要浪费了这个免费广告位
      "homepage_url": "https://github.com/lflxp"
+     // 自动升级
+    //  "update_url": "http://upext.chrome.360.cn/intf.php?method=ExtUpdate.query",
      // 默认语言
     // "default_locale": "zh_CN",
     // devtools页面入口，注意只能指向一个HTML文件，不能是JS文件

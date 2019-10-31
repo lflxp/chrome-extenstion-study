@@ -22,12 +22,17 @@ http://open.chrome.360.cn/extension_dev/bookmarks.html#method-get
 8. bookmarks接口获取书签
 9. 书签自动分类和推荐
 10. js代码结构改造
+11. 新增cookies、session、用户名密码存储
 
 # 数据结构
 
 {"default":[{'name':'title','url':'http://baidu.com','icon':'123','time':'2019-01-01'}]}
 {"tags":{"default":[{'name':'title','url':'http://baidu.com','icon':'123','time':'2019-01-01'}]}}
 e2RlZmF1bHQ6W3snbmFtZSc6J3RpdGxlJywndXJsJzonaHR0cDovL2JhaWR1LmNvbScsJ2ljb24nOicxMjMnLCd0aW1lJzonMjAxOS0wMS0wMSd9XX0K
+
+# 自动升级
+
+http://open.chrome.360.cn/extension_dev/autoupdate.html
 
 # 数据结构1
 
