@@ -108,7 +108,10 @@ function Github() {
                     headers: this.headers,
                     async: false,
                     success: function(result) {
-                        console.log('github get success' + JSON.stringify(result),result['content'],window.atob(result['content']))
+                        console.log('github get success' + JSON.stringify(result),window.atob(result['content']))
+                        
+                        // console.log('github get success',JSON.parse(decodeURI(window.atob(result['content']))))
+
                         // chrome.storage.local.set({'tags':result['content']},function(){
                         //     console.log('get data set local set');
                         // })
@@ -120,7 +123,7 @@ function Github() {
                         //         console.log('create new Tree',JSON.stringify(result));
                         //     })
                         // })
-                        addAll(JSON.parse(window.atob(result['content'])),'');
+                        addAll(JSON.parse(decodeURIComponent(window.atob(result['content']))),'');
                         // addAll(window.atob(result['content']),'');
                         // addAll(result['content'],'');
                         alert('同步完成');
@@ -162,9 +165,10 @@ function Github() {
                     chrome.bookmarks.getTree((re) => {
                         console.log('reeee',JSON.stringify(re))
                         // "content": window.btoa(encodeURIComponent(JSON.stringify(re))),
+                        // "content": window.btoa(unescape(encodeURIComponent(JSON.stringify(re)))),
                         var data = {
                             "message": '全量同步bookmarks',
-                            "content": window.btoa(unescape(encodeURIComponent(JSON.stringify(re)))),
+                            "content": window.btoa(encodeURIComponent(JSON.stringify(re))),
                             "sha": result['sha']
                         }
                     
@@ -421,22 +425,6 @@ function cbsync(result) {
     })
 }
 
-// 递归全量清空
-// todo remove v.id in [0,1,2,3]
-function removeall(data) {
-    data.forEach((v) => {
-        if (v.url === undefined) {
-            chrome.bookmarks.removeTree(v.id,function(rs) {
-            // chrome.bookmarks.remove(v.id,function(rs) {
-                console.log('remove tree success',v.id,JSON.stringify(rs))
-            })
-            removeall(v.children)
-        }
-        chrome.bookmarks.remove(v.id,function(rr) {
-            console.log('remove single',v.id,JSON.stringify(rr))
-        })
-    })
-}
 
 // 递归全量导入
 // bookmark ( object )

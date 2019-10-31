@@ -83,7 +83,6 @@
 
   <div class="collapse" id="search">
     <div class="well">
-      
       <label for="basic-url">搜索</label>
       <div class="row">
         <div class="col-lg-12">
@@ -94,6 +93,27 @@
             </span>
           </div><!-- /input-group -->
         </div><!-- /.col-lg-6 -->
+        <form>
+          <div class="form-group">
+            <label for="exampleInputEmail1">URL地址</label>
+            <input type="text" class="form-control" id="urls" placeholder="URLS" disabled>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">名称</label>
+            <input type="text" class="form-control" id="title" placeholder="TITLE">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">TABS分组</label>
+            <select class="form-control" id="selectgroup">
+              <option value="default">default</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="addtags">添加</button>
+        </form>
       </div>
     </div>
   </div>
@@ -136,28 +156,19 @@
         </div>
     </div>
   </div>
-
-  <form>
-      <div class="form-group">
-      <label for="exampleInputEmail1">URL地址</label>
-      <input type="text" class="form-control" id="urls" placeholder="URLS" disabled>
+  
+  <div class="well">
+    <label for="basic-url">标签管理</label>
+    <div class="btn-group" role="group" aria-label="...">
+      <button type="button" class="btn btn-default" id="clear">清空标签</button>
+      <button type="button" class="btn btn-default" id="gettree">获取全量标签树</button>
+      <button type="button" class="btn btn-default" id="getchildren">getChildren0</button>
+      <button type="button" class="btn btn-default" id="createfolder">创建目录</button>
+      <button type="button" class="btn btn-default" id="createmarks">创建标签</button>
+      <button type="button" class="btn btn-default" id="upload">全量同步上传</button>
+      <button type="button" class="btn btn-default" id="download">全量更新下载</button>
     </div>
-    <div class="form-group">
-      <label for="exampleInputEmail1">名称</label>
-      <input type="text" class="form-control" id="title" placeholder="TITLE">
-    </div>
-    <div class="form-group">
-      <label for="exampleInputPassword1">TABS分组</label>
-      <select class="form-control" id="selectgroup">
-        <option value="default">default</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-      </select>
-    </div>
-    <button type="submit" class="btn btn-primary btn-block" id="addtags">添加</button>
-  </form>
+  </div>
 </body>
 </html>
 
@@ -167,3 +178,4 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/po.js"></script>
 <script type="text/javascript" src="js/tab.js"></script>
+<script type="text/javascript" src="js/test.js"></script>

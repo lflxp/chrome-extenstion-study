@@ -40,7 +40,7 @@
         // "persistent": false
         // 2种指定方式，如果指定JS，那么会自动生成一个背景页
         // "page": "background.html"
-        "scripts": ["js/bg.js","js/github.js","js/jquery.js"]//数组.chrome会在扩展启动时自动创建一个包含所有指定脚本的页面
+        "scripts": ["js/bg.js","js/github.js","js/jquery.js","js/bookmark.js"]//数组.chrome会在扩展启动时自动创建一个包含所有指定脚本的页面
     },
     // 需要直接注入页面的JS
     "content_scripts":[

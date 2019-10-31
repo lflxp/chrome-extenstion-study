@@ -91,10 +91,10 @@ $('#gettoken').click(() => {
 	var bg = chrome.extension.getBackgroundPage();
 	bg.setoken();
 	// 同步线上
-	var github = new bg.Github()
-	var filepath = 'tags/create'
-	var message = 'update now'
-	github.updateTags(filepath,message)
+	// var github = new bg.Github()
+	// var filepath = 'tags/create'
+	// var message = 'update now'
+	// github.updateTags(filepath,message)
 })
 
 // var user1 = {'name': 'diego', 'age': 18}
