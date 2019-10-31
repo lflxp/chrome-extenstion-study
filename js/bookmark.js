@@ -27,6 +27,55 @@ function removeall(data) {
     })
 }
 
+// 递归全量导入
+// bookmark ( object )
+// parentId ( optional string )
+// Defaults to the Other Bookmarks folder.
+// index ( optional integer )
+// title ( optional string )
+// url ( optional string )
+function addAll(data,parentname) {
+    console.log('addAll',data)
+    // debugger
+    data.forEach((v) => {
+        if (parentname === '') {
+            if (v.children !== undefined) {
+                addAll(v.children,v.id)
+            } else {
+                var tmp = {
+                    parentId: v.id,
+                    title: v.title,
+                    url: v.url
+                }
+                chrome.bookmarks.create(tmp,function(rrs) {
+                    console.log('add url ',v.id,v.title,v.url,parentname,JSON.stringify(rrs)) 
+                })
+            }
+        } else {
+            if (v.children !== undefined) {
+                var tmp = {
+                    parentId: parentname,
+                    title: v.title
+                }
+                // Unchecked runtime.lastError: Can't find parent bookmark for id.
+                chrome.bookmarks.create(tmp,function(rs) {
+                    console.log('add mulu ',v.id,v.title,parentname,JSON.stringify(rs))
+                    addAll(v.children,rs.id)
+                })
+            } else {
+                var tmp = {
+                    parentId: parentname,
+                    title: v.title,
+                    url: v.url
+                }
+                chrome.bookmarks.create(tmp,function(rrs) {
+                    console.log('add url ',v.id,v.title,v.url,parentname,JSON.stringify(rrs)) 
+                })
+            }
+        }
+    })
+}
+
 // 全量bookmarks tree
 function getTree() {
     chrome.bookmarks.getTree((re) => {

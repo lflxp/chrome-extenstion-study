@@ -108,9 +108,9 @@ function Github() {
                     headers: this.headers,
                     async: false,
                     success: function(result) {
-                        console.log('github get success' + JSON.stringify(result),window.atob(result['content']))
+                        // console.log('github get success' + JSON.stringify(result),window.atob(result['content']))
                         
-                        // console.log('github get success',JSON.parse(decodeURI(window.atob(result['content']))))
+                        console.log('github get success',JSON.parse(decodeURIComponent(window.atob(result['content']))))
 
                         // chrome.storage.local.set({'tags':result['content']},function(){
                         //     console.log('get data set local set');
@@ -123,7 +123,9 @@ function Github() {
                         //         console.log('create new Tree',JSON.stringify(result));
                         //     })
                         // })
-                        addAll(JSON.parse(decodeURIComponent(window.atob(result['content']))),'');
+
+                        let info = JSON.parse(decodeURIComponent(window.atob(result['content'])));
+                        addAll(info[0].children,'');
                         // addAll(window.atob(result['content']),'');
                         // addAll(result['content'],'');
                         alert('同步完成');
@@ -162,6 +164,7 @@ function Github() {
                 dataType: 'json',
                 success: function(result) {
                     console.log('github get success' + JSON.stringify(result),result['sha'])
+                    // chrome.bookmarks.getChildren("1",(re) => {
                     chrome.bookmarks.getTree((re) => {
                         console.log('reeee',JSON.stringify(re))
                         // "content": window.btoa(encodeURIComponent(JSON.stringify(re))),
@@ -422,88 +425,5 @@ function cbsync(result) {
                 console.log('update update error',e)
             }
         })
-    })
-}
-
-
-// 递归全量导入
-// bookmark ( object )
-// parentId ( optional string )
-// Defaults to the Other Bookmarks folder.
-// index ( optional integer )
-// title ( optional string )
-// url ( optional string )
-function addAll(data,parentname) {
-    console.log('addAll',data)
-    // debugger
-    data.forEach((v) => {
-        if (v.children !== undefined) {
-            // chrome.bookmarks.search(parentname,function(trs) {
-            //     console.log('search ',v.title,v.index,v.url,parentname,JSON.stringify(trs))
-            //     if (trs.length > 0) {
-            //         trs.forEach((tt) => {
-            //             var tmp = {
-            //                 parentId: tt.id,
-            //                 title: v.title
-            //             }
-            //             // Unchecked runtime.lastError: Can't find parent bookmark for id.
-            //             chrome.bookmarks.create(tmp,function(rs) {
-            //                 console.log('add mulu ',v.id,v.title,JSON.stringify(rs))
-            //             })
-            //         })
-            //     } else {
-            //         var tmp = {
-            //             parentId: v.parentId,
-            //             title: v.title
-            //         }
-            //         // Unchecked runtime.lastError: Can't find parent bookmark for id.
-            //         chrome.bookmarks.create(tmp,function(rs) {
-            //             console.log('add mulu ',v.id,v.title,parentname,JSON.stringify(rs))
-            //         })
-            //     }
-            // })
-            
-            var tmp = {
-                parentId: "1",
-                title: v.title
-            }
-            // Unchecked runtime.lastError: Can't find parent bookmark for id.
-            chrome.bookmarks.create(tmp,function(rs) {
-                console.log('add mulu ',v.id,v.title,parentname,JSON.stringify(rs))
-            })
-            addAll(v.children,v.title)
-        }
-        var tmp = {
-            parentId: "1",
-            title: v.title,
-            url: v.url
-        }
-        chrome.bookmarks.create(tmp,function(rrs) {
-            console.log('add url ',v.id,v.title,v.url,parentname,JSON.stringify(rrs)) 
-        })
-        // chrome.bookmarks.search(parentname,function(trs) {
-        //     console.log('search ',v.title,v.index,v.url,parentname,JSON.stringify(trs))
-        //     if (trs.length>0) {
-        //         trs.forEach((tt) => {
-        //             var tmp = {
-        //                 parentId: tt.id,
-        //                 title: v.title,
-        //                 url: v.url
-        //             }
-        //             chrome.bookmarks.create(tmp,function(rrs) {
-        //                 console.log('add url ',v.id,v.title,v.url,parentname,JSON.stringify(rrs)) 
-        //             })
-        //         })
-        //     } else {
-        //         var tmp = {
-        //             parentId: v.parentId,
-        //             title: v.title,
-        //             url: v.url
-        //         }
-        //         chrome.bookmarks.create(tmp,function(rrs) {
-        //             console.log('add url ',v.id,v.title,v.url,parentname,JSON.stringify(rrs)) 
-        //         })
-        //     }
-        // })
     })
 }

@@ -8,6 +8,8 @@ https://segmentfault.com/a/1190000011997656
 
 https://www.cnblogs.com/deng-cc/p/9053539.html
 
+http://open.chrome.360.cn/extension_dev/bookmarks.html#method-get
+
 # TODO
 
 1. 书签保存方式使用json或者谷歌浏览器书签格式

@@ -47,3 +47,19 @@ $('#gettree').click(() => {
     var bg = chrome.extension.getBackgroundPage();
     bg.getTree();
 })
+
+// 初始化文件tags/create
+$('#initcreate').click(() => {
+    var bg = chrome.extension.getBackgroundPage();
+	var github = new bg.Github()
+	var rrr = github.create('tags/create')
+	console.log('init tags/create',rrr)
+})
+
+// 更新文件tags/create
+$('#updatecreate').click(() => {
+    var bg = chrome.extension.getBackgroundPage();
+	var github = new bg.Github()
+	var rrr = github.update('tags/create','测试更新文件','# hello world')
+	console.log('updatecreate tags/create',rrr)
+})
