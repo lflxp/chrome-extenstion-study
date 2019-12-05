@@ -12,7 +12,7 @@
   <link href="css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body style="width: 310px;">
-  <nav class="navbar navbar-default navbar-inverse">
+  <nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -60,6 +60,90 @@
     展开 
   </button>-->
 
+  <ul class="list-group">
+    <li class="list-group-item list-group-item-success">
+      <div class="input-group">
+        <input type="text" class="form-control" aria-label="...">
+        <div class="input-group-btn">
+          <button class="btn btn-default" type="button">DEL</button>
+          <button class="btn btn-default" type="button">
+              <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </li>
+    <li class="list-group-item list-group-item-info">Cras sit amet nibh libero</li>
+    <li class="list-group-item list-group-item-warning">Porta ac consectetur ac</li>
+    <li class="list-group-item list-group-item-danger">Vestibulum at eros</li>
+  </ul>
+
+  <ul class="list-group">
+      <li class="list-group-item">
+        <span class="badge">14</span>
+        Cras justo odio
+      </li>
+      <hr/>
+      <li class="list-group-item">
+        <button type="button" class="badge">14</button>
+        Cras justo odio
+      </li>
+      <li class="list-group-item">
+        <button type="button" class="badge btn btn-default" aria-label="Left Align" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus
+        sagittis lacus vel augue laoreet rutrum faucibus.">>
+          <span class="glyphicon glyphicon-font" aria-hidden="true"></span> 
+        </button>
+        Cras justo odio
+      </li>
+    </ul>
+    <div class="list-group">
+      <a href="#" class="list-group-item active">
+        Cras justo odio
+      </a>
+      <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+      <a href="#" class="list-group-item">Morbi leo risus</a>
+      <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+      <a href="#" class="list-group-item">Vestibulum at eros</a>
+    </div>
+    <div class="list-group">
+      <button type="button" class="list-group-item">Cras justo odio</button>
+      <button type="button" class="list-group-item">Dapibus ac facilisis in</button>
+      <button type="button" class="list-group-item">Morbi leo risus</button>
+      <button type="button" class="list-group-item">Porta ac consectetur ac</button>
+      <button type="button" class="list-group-item">Vestibulum at eros</button>
+    </div>
+    <ul class="list-group">
+      <li class="list-group-item list-group-item-success">
+          <span class="badge">14</span>
+          Dapibus ac facilisis in
+      </li>
+      <li class="list-group-item list-group-item-info">Cras sit amet nibh libero</li>
+      <li class="list-group-item list-group-item-warning">Porta ac consectetur ac</li>
+      <li class="list-group-item list-group-item-danger">Vestibulum at eros</li>
+    </ul>
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-success">
+        <span class="badge">14</span>
+        Dapibus ac facilisis in
+      </a>
+      <a href="#" class="list-group-item list-group-item-info">Cras sit amet nibh libero</a>
+      <a href="#" class="list-group-item list-group-item-warning">Porta ac consectetur ac</a>
+      <a href="#" class="list-group-item list-group-item-danger">Vestibulum at eros</a>
+    </div>
+    <div class="list-group">
+      <a href="#" class="list-group-item active">
+        <h4 class="list-group-item-heading">List group item heading</h4>
+        <p class="list-group-item-text">...</p>
+      </a>
+      <a href="#" class="list-group-item active">
+        <h4 class="list-group-item-heading">List group item heading</h4>
+        <p class="list-group-item-text">...</p>
+      </a>
+      <a href="#" class="list-group-item active">
+        <h4 class="list-group-item-heading">List group item heading</h4>
+        <p class="list-group-item-text">...</p>
+      </a>
+    </div>
+
   <div class="collapse" id="collapseExample">
     <div class="well">
       <div class="row">
@@ -93,23 +177,6 @@
           </button>
         </div>
       </div>
-
-      <ul class="list-group">
-        <li class="list-group-item list-group-item-success">
-          <div class="input-group">
-            <input type="text" class="form-control" aria-label="...">
-            <div class="input-group-btn">
-              <button class="btn btn-default" type="button">DEL</button>
-              <button class="btn btn-default" type="button">
-                  <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
-              </button>
-            </div>
-          </div>
-        </li>
-        <li class="list-group-item list-group-item-info">Cras sit amet nibh libero</li>
-        <li class="list-group-item list-group-item-warning">Porta ac consectetur ac</li>
-        <li class="list-group-item list-group-item-danger">Vestibulum at eros</li>
-      </ul>
 
       <label for="basic-url">认证设置</label>
       <div class="input-group">
@@ -217,66 +284,6 @@
       <button type="button" class="btn btn-default" id="createmarks">创建标签</button>
       <button type="button" class="btn btn-default" id="upload">全量同步上传</button>
       <button type="button" class="btn btn-default" id="download">全量更新下载</button>
-    </div>
-    <ul class="list-group">
-      <li class="list-group-item">
-        <span class="badge">14</span>
-        Cras justo odio
-      </li>
-      <hr/>
-      <li class="list-group-item">
-        <button type="button" class="badge">14</button>
-        Cras justo odio
-      </li>
-      <li class="list-group-item">
-        <button type="button" class="badge btn btn-default" aria-label="Left Align" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus
-        sagittis lacus vel augue laoreet rutrum faucibus.">>
-          <span class="glyphicon glyphicon-font" aria-hidden="true"></span> 
-        </button>
-        Cras justo odio
-      </li>
-    </ul>
-    <div class="list-group">
-      <a href="#" class="list-group-item active">
-        Cras justo odio
-      </a>
-      <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-      <a href="#" class="list-group-item">Morbi leo risus</a>
-      <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-      <a href="#" class="list-group-item">Vestibulum at eros</a>
-    </div>
-    <div class="list-group">
-      <button type="button" class="list-group-item">Cras justo odio</button>
-      <button type="button" class="list-group-item">Dapibus ac facilisis in</button>
-      <button type="button" class="list-group-item">Morbi leo risus</button>
-      <button type="button" class="list-group-item">Porta ac consectetur ac</button>
-      <button type="button" class="list-group-item">Vestibulum at eros</button>
-    </div>
-    <ul class="list-group">
-      <li class="list-group-item list-group-item-success">Dapibus ac facilisis in</li>
-      <li class="list-group-item list-group-item-info">Cras sit amet nibh libero</li>
-      <li class="list-group-item list-group-item-warning">Porta ac consectetur ac</li>
-      <li class="list-group-item list-group-item-danger">Vestibulum at eros</li>
-    </ul>
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-success">Dapibus ac facilisis in</a>
-      <a href="#" class="list-group-item list-group-item-info">Cras sit amet nibh libero</a>
-      <a href="#" class="list-group-item list-group-item-warning">Porta ac consectetur ac</a>
-      <a href="#" class="list-group-item list-group-item-danger">Vestibulum at eros</a>
-    </div>
-    <div class="list-group">
-      <a href="#" class="list-group-item active">
-        <h4 class="list-group-item-heading">List group item heading</h4>
-        <p class="list-group-item-text">...</p>
-      </a>
-      <a href="#" class="list-group-item active">
-        <h4 class="list-group-item-heading">List group item heading</h4>
-        <p class="list-group-item-text">...</p>
-      </a>
-      <a href="#" class="list-group-item active">
-        <h4 class="list-group-item-heading">List group item heading</h4>
-        <p class="list-group-item-text">...</p>
-      </a>
     </div>
   </div>
 </body>
